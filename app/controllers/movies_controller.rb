@@ -8,15 +8,30 @@ class MoviesController < ApplicationController
 
   def index
     @highlighted_column = nil
-    sort_order = nil
+    @all_ratings = Movie.ratings
+    @selected_ratings = {}
+    sort_order = ''
+    ratings_condition = []
     
     valid_sorts = ['title', 'release_date']
-    if (params.include?(:sort) and valid_sorts.include?(params[:sort]))
-        sort_order = params[:sort] + ' ASC'
-        @highlighted_column = params[:sort]
+    if params.include?(:sort) and valid_sorts.include?(params[:sort])
+      sort_order = params[:sort] + ' ASC'
+      @highlighted_column = params[:sort]
     end
     
-    @movies = Movie.find(:all, :order => sort_order)
+    if (params.include?(:ratings))
+      @selected_ratings = params[:ratings]
+      ratings_filter = []
+      @selected_ratings.each do |rating, value|
+        ratings_filter.push(rating) if @all_ratings.include? rating
+      end
+      
+      if ratings_filter.length > 0
+        ratings_condition = ['rating in (?)', ratings_filter]
+      end
+    end
+    
+    @movies = Movie.find(:all, :order => sort_order, :conditions => ratings_condition)
   end
 
   def new
