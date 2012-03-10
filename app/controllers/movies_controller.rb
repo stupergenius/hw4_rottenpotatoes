@@ -44,7 +44,12 @@ class MoviesController < ApplicationController
         return
       end
     else
-      session[:movies_filter_params][:ratings] = nil
+      if params.include?(:commit)
+        session[:movies_filter_params][:ratings] = nil
+      elsif session[:movies_filter_params][:ratings] != nil
+        redirect_to movies_path(params.merge(session[:movies_filter_params]))
+        return
+      end
     end
     
     @movies = Movie.find(:all, :order => sort_order, :conditions => ratings_condition)
