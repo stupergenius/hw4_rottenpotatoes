@@ -7,6 +7,11 @@ class MoviesController < ApplicationController
   end
 
   def index
+    #session.clear
+    if not session.has_key?(:movies_filter_params)
+      session[:movies_filter_params] = {:sort => nil, :ratings => nil}
+    end
+    
     @highlighted_column = nil
     @all_ratings = Movie.ratings
     @selected_ratings = {}
@@ -17,7 +22,12 @@ class MoviesController < ApplicationController
     if params.include?(:sort) and valid_sorts.include?(params[:sort])
       sort_order = params[:sort] + ' ASC'
       @highlighted_column = params[:sort]
+      session[:movies_filter_params][:sort] = params[:sort]
+    elsif session[:movies_filter_params][:sort] != nil
+      redirect_to movies_path(params.merge(session[:movies_filter_params]))
+      return
     end
+    puts params.merge(session[:movies_filter_params])
     
     if (params.include?(:ratings))
       @selected_ratings = params[:ratings]
@@ -27,8 +37,14 @@ class MoviesController < ApplicationController
       end
       
       if ratings_filter.length > 0
+        session[:movies_filter_params][:ratings] = params[:ratings]
         ratings_condition = ['rating in (?)', ratings_filter]
+      elsif session[:movies_filter_params][:ratings] != nil
+        redirect_to movies_path(params.merge(session[:movies_filter_params]))
+        return
       end
+    else
+      session[:movies_filter_params][:ratings] = nil
     end
     
     @movies = Movie.find(:all, :order => sort_order, :conditions => ratings_condition)
