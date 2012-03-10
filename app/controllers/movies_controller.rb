@@ -7,10 +7,13 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @highlighted_column = nil
     sort_order = nil
+    
     valid_sorts = ['title', 'release_date']
     if (params.include?(:sort) and valid_sorts.include?(params[:sort]))
         sort_order = params[:sort] + ' ASC'
+        @highlighted_column = params[:sort]
     end
     
     @movies = Movie.find(:all, :order => sort_order)
