@@ -21,6 +21,9 @@ group :production do
   gem 'pg'
 end
 
+# test coverage generation
+gem 'simplecov', :require => false, :group => :test
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
