@@ -1,6 +1,7 @@
 #*
 \#*\#
 *~
+.bundle
 TAGS
 db/schema.rb
 log/
