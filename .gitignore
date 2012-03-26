@@ -7,3 +7,4 @@ db/schema.rb
 log/
 db/*.sqlite3
 coverage
+Gemfile.lock
