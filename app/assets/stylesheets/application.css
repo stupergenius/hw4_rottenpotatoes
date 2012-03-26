@@ -1,3 +1,6 @@
+/*
+ * Global Styles
+ */
 html, body {
   margin: 0;
   padding: 0;
@@ -33,6 +36,10 @@ h1.title {
   font-size: 2em;
   font-style: normal;
 }
+
+/*
+ * Movie Table Styles
+ */
 table#movies {
   margin: 10px;
   border-collapse: collapse;
@@ -51,6 +58,10 @@ table#movies th, table#movies td {
 table#movies th.hilite {
   background-color: yellow;
 }
+
+/*
+ * Form Styles
+ */
 #notice #warning {
   background: rosybrown;
   margin: 1em 0;
