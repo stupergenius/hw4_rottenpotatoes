@@ -16,13 +16,12 @@ group :development, :test do
   gem 'launchy'
   gem 'rspec-rails'
   gem 'simplecov'
+  gem 'factory_girl_rails'
+  gem 'simplecov', :require => false
 end
 group :production do
   gem 'pg'
 end
-
-# test coverage generation
-gem 'simplecov', :require => false, :group => :test
 
 # Gems used only for assets and not required
 # in production environments by default.
